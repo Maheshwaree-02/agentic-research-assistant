@@ -56,7 +56,8 @@ Built using **LangGraph**, **Streamlit**, **PostgreSQL**, and **ChromaDB**, the 
 
 # 🏗️ Architecture
 
-<img width="1658" height="697" alt="Research_assistant" src="https://github.com/user-attachments/assets/9dba6fac-51f8-4c95-af45-2749984d2d02" />
+<img width="1058" height="628" alt="image" src="https://github.com/user-attachments/assets/90ac013b-7a88-4401-816a-7728855a4195" />
+
 
 
 ---
