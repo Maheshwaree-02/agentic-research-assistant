@@ -6,7 +6,7 @@ load_dotenv()
 # ====================== LLM CONFIG ======================
 PRIMARY_LLM = "gemini"                    # Change to "groq" if you prefer
 GEMINI_MODEL = "gemini-2.5-flash-lite"    # Good for free tier
-GROQ_MODEL = "llama-3.1-70b-versatile"
+GROQ_MODEL = "llama-3.3-70b-versatile"
 
 # ====================== DATABASE CONFIG ======================
 DATABASE_URL = os.getenv("DATABASE_URL")
@@ -17,7 +17,8 @@ if not DATABASE_URL:
     print("⚠️  DATABASE_URL not found in .env → Using fallback")
 
 # RAG Configuration
+# RAG Settings (ChromaDB)
+CHROMA_PERSIST_DIRECTORY = "./chroma_db"
 EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
-VECTOR_COLLECTION_NAME = "researchpilot_documents"
 
 USE_MOCK = False         # ← Set this to True for now
