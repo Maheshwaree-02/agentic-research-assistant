@@ -4,90 +4,103 @@ from config.settings import USE_MOCK, GEMINI_MODEL, GROQ_MODEL
 
 def get_llm_client():
     if USE_MOCK:
-        print("🟡 Mock Mode ACTIVE - No API calls being made")
+        print("🟡 Mock Mode ACTIVE")
         return {"provider": "mock", "client": None}
-    
+   
     # Try Gemini
     if os.getenv("GEMINI_API_KEY"):
         try:
             from google import genai
-            print(f"✅ Using Gemini")
+            print(f"✅ Using Gemini ({GEMINI_MODEL})")
             return {"provider": "gemini", "client": genai.Client(api_key=os.getenv("GEMINI_API_KEY"))}
-        except:
-            pass
-    
+        except Exception as e:
+            print(f"Gemini init failed: {e}")
+   
     # Try Groq
     if os.getenv("GROQ_API_KEY"):
         try:
             from groq import Groq
-            print(f"✅ Using Groq")
+            print(f"✅ Using Groq ({GROQ_MODEL})")
             return {"provider": "groq", "client": Groq(api_key=os.getenv("GROQ_API_KEY"))}
-        except:
-            pass
-    
-    print("⚠️ No API available → Forcing Mock Mode")
+        except Exception as e:
+            print(f"Groq init failed: {e}")
+   
+    print("⚠️ No API available → Mock Mode")
     return {"provider": "mock", "client": None}
 
 
 def generate_content(llm, prompt: str, temperature: float = 0.7) -> str:
     if llm["provider"] == "mock":
         return enhanced_mock_generate(prompt)
-    
-    # Real LLM calls (Gemini/Groq) - existing logic
-    try:
-        if llm["provider"] == "gemini":
+   
+    # Gemini
+    if llm["provider"] == "gemini":
+        try:
             response = llm["client"].models.generate_content(
                 model=GEMINI_MODEL,
                 contents=prompt,
                 config={"temperature": temperature, "max_output_tokens": 8192}
             )
             return response.text
-    except Exception as e:
-        print(f"Gemini failed: {e}")
-    
-    # Try Groq as backup
+        except Exception as e:
+            print(f"❌ Gemini failed: {e}")
+   
+    # Groq fallback
     try:
-        if os.getenv("GROQ_API_KEY"):
-            from groq import Groq
-            client = Groq(api_key=os.getenv("GROQ_API_KEY"))
-            response = client.chat.completions.create(
-                model=GROQ_MODEL,
-                messages=[{"role": "user", "content": prompt}],
-                temperature=temperature,
-                max_tokens=8192,
-            )
-            return response.choices[0].message.content
+        from groq import Groq
+        client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+        response = client.chat.completions.create(
+            model=GROQ_MODEL,
+            messages=[{"role": "user", "content": prompt}],
+            temperature=temperature,
+            max_tokens=8192,
+        )
+        return response.choices[0].message.content
     except Exception as e:
-        print(f"Groq failed: {e}")
-    
+        print(f"❌ Groq failed: {e}")
+   
     print("Both LLMs failed → Using Mock")
     return enhanced_mock_generate(prompt)
 
 
 def enhanced_mock_generate(prompt: str) -> str:
-    if "writer" in prompt.lower() or "report" in prompt.lower():
-        return """# Emerging AI, Cloud, and Software Development Technologies
+    """High-quality mock responses"""
+    prompt_lower = prompt.lower()
+    
+    if "planner" in prompt_lower:
+        return json.dumps({
+            "research_plan": [
+                "Core concepts and definitions",
+                "Key architectures and frameworks",
+                "Recent developments and case studies",
+                "Implementation best practices",
+                "Challenges, limitations and future outlook"
+            ]
+        })
+    
+    # Default rich mock for Writer Agent
+    return """# Comprehensive Research Report
 
 ## Executive Summary
-This comprehensive report analyzes the current landscape of key technologies shaping enterprise software development in 2026.
+This report provides a detailed analysis based on current knowledge and latest trends in the field.
 
 ## Key Findings
-• **Agentic AI** has moved from experimental to production use in many organizations.
-• **RAG architectures** significantly reduce hallucinations and improve factual accuracy.
-• Multi-agent systems using LangGraph show superior orchestration capabilities.
-• Cloud-native development with serverless and Kubernetes remains dominant.
+• Significant advancements have been observed in this domain
+• Multiple architectural approaches exist with different trade-offs
+• Real-world adoption is accelerating rapidly across enterprises
+• Integration with existing systems is becoming more mature
 
 ## Technical Details
-**Agentic AI vs RAG**
-- Agentic AI excels at autonomous decision making and tool use.
-- RAG excels at knowledge-intensive tasks and reducing hallucinations.
+• Strong emphasis on modularity and scalability
+• Performance benchmarks show good results
+• Security and reliability considerations are critical
 
 ## Best Practices
-1. Combine Agentic workflows with RAG for best results.
-2. Implement human-in-the-loop for critical decisions.
-3. Use PostgreSQL + PGVector for persistent memory.
+1. Start with clear requirements and success metrics
+2. Implement iterative development and testing
+3. Use monitoring and observability from day one
+4. Plan for scalability and maintenance
 
-## Conclusion
-Enterprises that successfully integrate Agentic AI, RAG, and robust data infrastructure will have significant competitive advantage in 2026-2027.
+## Conclusion & Future Work
+The field continues to evolve rapidly. Future efforts should focus on better integration, reliability, and ethical considerations.
 """
-    return "Mock response generated."
