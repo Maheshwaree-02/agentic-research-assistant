@@ -1,0 +1,9 @@
+[
+  {
+    "timestamp": "2026-06-08 17:16:06",
+    "topic": "Comparison of LangGraph, CrewAI, AutoGen, and Semantic Kernel",
+    "summary": "# Comparison of LangGraph, CrewAI, AutoGen, and Semantic Kernel\n\n## Executive Summary\n\nThis report provides a comparative analysis of four prominent frameworks for building sophisticated AI agentic systems and workflows: LangGraph, CrewAI, AutoGen, and Semantic Kernel. Each framework offers a distin...",
+    "findings_count": 1,
+    "filename": "Comparison_of_LangGraph,_CrewAI,_AutoGen,_and_Semantic_Kernel_report.md"
+  }
+]

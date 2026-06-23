@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environments
+.env
+.venv/
+venv/
+
+# API Keys / Secrets
+api_key
+.env.local
+
+# IDE
+.idea/
+.vscode/
+
+# Databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Vector Databases
+chroma_db/
+
+# Logs
+*.log
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Testing
+.pytest_cache/
+.coverage
+
+# Build
+dist/
+build/
+
+# Jupyter
+.ipynb_checkpoints/
