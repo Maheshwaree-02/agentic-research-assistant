@@ -2,6 +2,8 @@ import streamlit as st
 from dotenv import load_dotenv
 import os
 import hashlib
+import warnings
+warnings.filterwarnings("ignore", category=RuntimeWarning)
 
 from core.llm import get_llm_client
 from core.state import AgentState

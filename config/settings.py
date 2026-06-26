@@ -15,7 +15,7 @@ GROQ_MODEL = "llama-3.3-70b-versatile"
 GEMINI_MODEL_FAST = "gemini-2.5-flash-lite"     # For Planner & Researcher (speed)
 GEMINI_MODEL_QUALITY = "gemini-2.5-flash"       # For Writer (better quality)
 
-USE_MOCK = False
+USE_MOCK = True 
 
 # ====================== DATABASE CONFIG ======================
 DATABASE_URL = os.getenv("DATABASE_URL")
