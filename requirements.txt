@@ -4,7 +4,6 @@ pydantic
 python-dotenv
 requests
 beautifulsoup4
-duckduckgo-search
 reportlab
 groq
 sqlalchemy
@@ -13,9 +12,9 @@ python-docx
 langgraph
 langchain-core
 langchain-community
+langchain-chroma
 sentence-transformers
-pgvector
-psycopg2-binary
 langchain-huggingface
 chromadb
 ddgs
+markdown
