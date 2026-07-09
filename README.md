@@ -24,7 +24,7 @@ ResearchPilot AI is a production-inspired, multi-agent AI research assistant. It
 
 1.  **Clone the repository**
     ```bash
-    git clone https://github.com/yourusername/researchpilot-ai.git
+    git clone https://github.com/Maheshwaree-02/agentic-research-assistant.git
     cd researchpilot-ai
     ```
 
