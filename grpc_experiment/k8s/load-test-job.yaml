@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: load-test
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: load-test
+          image: myapp-backend:latest
+          imagePullPolicy: Never
+          command: ["python", "load_test.py"]
+          env:
+            - name: TARGET_ADDR
+              value: "dns:///worker-svc:60201"

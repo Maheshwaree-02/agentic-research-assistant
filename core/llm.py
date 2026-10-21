@@ -120,19 +120,28 @@ def enhanced_mock_generate(prompt: str) -> str:
         })
 
     if "researcher" in prompt_lower or "search results" in prompt_lower:
-        return """Based on the research conducted, here are the key findings:
-
-**Key Insights:**
-- The technology has seen significant adoption in enterprise environments
-- Multiple architectural patterns exist with different trade-offs
-- Recent benchmarks show 40% improvement over previous approaches
-
-**Technical Details:**
-- Architecture follows a modular design pattern
-- Integration with existing systems requires careful consideration
-- Performance scales linearly with proper configuration
-
-**Sources consulted include industry reports, academic papers, and official documentation.**"""
+        return json.dumps([
+            {
+                "question": "Core concepts and definitions",
+                "content": "The technology has seen significant adoption in enterprise environments. Multiple architectural patterns exist with different trade-offs."
+            },
+            {
+                "question": "Key architectures and frameworks",
+                "content": "Architecture follows a modular design pattern. Integration with existing systems requires careful consideration."
+            },
+            {
+                "question": "Recent developments and trends",
+                "content": "Recent benchmarks show 40% improvement over previous approaches. Performance scales linearly with proper configuration."
+            },
+            {
+                "question": "Implementation best practices and patterns",
+                "content": "Follow established design patterns for maintainability. Implement comprehensive monitoring and observability."
+            },
+            {
+                "question": "Challenges, limitations, and future outlook",
+                "content": "The field continues to evolve rapidly. Security considerations must be addressed early in the lifecycle."
+            }
+        ])
 
     if "reviewer" in prompt_lower or "evaluate" in prompt_lower:
         return json.dumps({
