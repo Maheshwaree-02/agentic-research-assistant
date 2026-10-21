@@ -41,3 +41,10 @@ build/
 
 # Jupyter
 .ipynb_checkpoints/
+# Distributed Computing Lab / Experiment Data & Binaries
+grpc_experiment/redis_win/
+grpc_experiment/dfs_data/
+grpc_experiment/*.bin
+grpc_experiment/.*_clock
+output/
+

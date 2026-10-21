@@ -1,0 +1,125 @@
+syntax = "proto3";
+
+package research;
+
+service PlannerService {
+  rpc GeneratePlan (PlanRequest) returns (PlanResponse) {}
+}
+
+message PlanRequest {
+  string topic = 1;
+  string goals = 2;
+  string depth = 3;
+  int32 lamport_clock = 4; // Added for Experiment 3
+}
+
+message PlanResponse {
+  repeated string questions = 1;
+  string message = 2;
+  int32 lamport_clock = 3; // Added for Experiment 3
+}
+
+// Peer-to-peer mutual exclusion service.
+service MutexService {
+ rpc RequestAccess (AccessRequest) returns (AccessReply);
+}
+
+message AccessRequest {
+ int32 node_id = 1;
+ int32 timestamp = 2;
+}
+
+message AccessReply {
+ int32 node_id = 1;
+ int32 timestamp = 2;
+}
+
+// --- Experiment 5: Deadlock simulation & resolution ---
+service LockService {
+ rpc AcquireLock (LockRequest) returns (LockReply);
+ rpc ReleaseLock (LockRequest) returns (LockReply);
+}
+
+message LockRequest {
+ string resource_id = 1;
+ int32 holder_id = 2;
+ int32 timestamp = 3;
+}
+
+message LockReply {
+ bool granted = 1;
+ string message = 2;
+}
+
+// --- Experiment 6: Least Connections Load Balancing ---
+service ResearchWorkerService {
+  rpc HandleTask (ResearchTaskRequest) returns (ResearchTaskReply);
+}
+
+message ResearchTaskRequest {
+  int32 task_id = 1;
+  string query = 2;
+}
+
+message ResearchTaskReply {
+  int32 task_id = 1;
+  string handled_by = 2;
+  string status = 3;
+}
+
+// --- Experiment 7: Eventual Consistency (Gossip + LWW) ---
+service ReportReplicaService {
+ rpc SaveReport (ReportUpdate) returns (ReportAck);
+ rpc SyncReport (ReportUpdate) returns (ReportAck);
+ rpc GetReport (ReportQuery) returns (ReportState);
+}
+
+message ReportUpdate {
+ string topic = 1;
+ string content = 2;
+ int32 lamport_timestamp = 3;
+ string origin_replica = 4;
+}
+
+message ReportAck {
+ bool accepted = 1;
+ string replica = 2;
+ int32 lamport_timestamp = 3;
+}
+
+message ReportQuery {
+ string topic = 1;
+}
+
+message ReportState {
+ string topic = 1;
+ string content = 2;
+ int32 lamport_timestamp = 3;
+ string origin_replica = 4;
+}
+
+// --- Experiment 9: Raft Leader Election ---
+service RaftService {
+ rpc RequestVote (VoteRequest) returns (VoteReply);
+ rpc AppendEntries (HeartbeatRequest) returns (HeartbeatReply);
+}
+
+message VoteRequest {
+ int32 term = 1;
+ string candidate_id = 2;
+}
+
+message VoteReply {
+ int32 term = 1;
+ bool vote_granted = 2;
+}
+
+message HeartbeatRequest {
+ int32 term = 1;
+ string leader_id = 2;
+}
+
+message HeartbeatReply {
+ int32 term = 1;
+ bool success = 2;
+}

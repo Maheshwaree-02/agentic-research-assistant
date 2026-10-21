@@ -23,9 +23,11 @@ Return ONLY the JSON, no other text."""
 
 RESEARCHER_PROMPT = """You are a meticulous technical researcher.
 Topic: {topic}
-Current question: {question}
 
-Use the provided search results and page content to synthesize accurate, up-to-date insights.
+**Research Questions:**
+{questions_json}
+
+Use the provided consolidated search results and page content to synthesize accurate, up-to-date insights for EACH question.
 
 **Requirements:**
 - Focus on technical depth, recent developments, and practical examples
@@ -34,7 +36,16 @@ Use the provided search results and page content to synthesize accurate, up-to-d
 - Include key statistics, numbers, and concrete examples where available
 - Be precise and factual — do not fabricate information
 
-Provide a thorough synthesis of the available information."""
+**Output Format:**
+Return your response as a valid JSON array of objects, where each object corresponds to a question. Use this EXACT structure:
+[
+  {{
+    "question": "The exact question string",
+    "content": "Your thorough synthesis and answer for this question, using markdown formatting."
+  }}
+]
+
+Return ONLY the JSON array, no other text."""
 
 WRITER_PROMPT = """You are a senior technical writer and research analyst producing a professional research report.
 
